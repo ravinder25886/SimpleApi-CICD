@@ -19,6 +19,13 @@ jobs:
         uses: actions/setup-dotnet@v3 # Predefined action to setup dotnet
         with: #<-- provide parameters to the action
           dotnet-version: '8.0.x' # Specify the .NET version to install
+      - name: Cache NuGet Packages # Step 2.1: Cache NuGet packages to speed up builds
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Restore dependencies # Step 3: Restore the dependencies
         run: dotnet restore $SOLUTION_PATH   
