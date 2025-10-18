@@ -8,18 +8,18 @@ jobs:
     runs-on: ubuntu-latest # <-- OS to run the job
 
     steps:
-     - name: Checlout-code # Step 1: Checkout the code from repository
+      - name: Checkout-code # Step 1: Checkout the code from repository
         uses: actions/checkout@v3 # This is a predefined action in GutHib to checkout code
 
-     - name: Setup .NET 8 SDK # Step 2: we will setup .net 8 sdk for build 
+      - name: Setup .NET 8 SDK # Step 2: we will setup .net 8 sdk for build 
         uses: actions/setup-dotnet@v3 # Predefined action to setup dotnet
         with: #<-- provide parameters to the action
-         dotnet-version: '8.0.x' # Specify the .NET version to install
+          dotnet-version: '8.0.x' # Specify the .NET version to install
 
-     - name: Restore dependencies # Step 3: Restore the dependencies
-       run: dotnet restore   
+      - name: Restore dependencies # Step 3: Restore the dependencies
+        run: dotnet restore   
 
-     - name: Build solution # Step 4: Build the solution
-       run: dotnet build --no-restore --configuration Release  
+      - name: Build solution # Step 4: Build the solution
+        run: dotnet build --no-restore --configuration Release  
 
 
