@@ -2,10 +2,14 @@ name: ASP.NET Core 8 API CI/CD
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main] 
 
 jobs:
   build: # Fisrt we we will setup only build job
     runs-on: ubuntu-latest # <-- OS to run the job
+    env: # Environment variables
+      SOLUTION_PATH: SimpleApi-CICD/SimpleAPI/SimpleAPI.sln #// Path to the solution file
 
     steps:
       - name: Checkout-code # Step 1: Checkout the code from repository
@@ -17,9 +21,9 @@ jobs:
           dotnet-version: '8.0.x' # Specify the .NET version to install
 
       - name: Restore dependencies # Step 3: Restore the dependencies
-        run: dotnet restore   
+        run: dotnet restore $SOLUTION_PATH   
 
       - name: Build solution # Step 4: Build the solution
-        run: dotnet build --no-restore --configuration Release  
+        run: dotnet build $SOLUTION_PATH --no-restore --configuration Release  
 
 
