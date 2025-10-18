@@ -9,7 +9,7 @@ jobs:
   build: # Fisrt we we will setup only build job
     runs-on: ubuntu-latest # <-- OS to run the job
     env: # Environment variables
-      SOLUTION_PATH: SimpleApi-CICD/SimpleAPI/SimpleAPI.sln #// Path to the solution file
+      SOLUTION_PATH: SimpleAPI/SimpleAPI.sln #// Path to the solution file
 
     steps:
       - name: Checkout-code # Step 1: Checkout the code from repository
