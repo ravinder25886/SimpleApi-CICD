@@ -1,7 +1,7 @@
 name: ASP.NET Core 8 API CI/CD
 on:
   push:
-    branches:[main]
+    branches: [main]
 
 jobs:
   build: # Fisrt we we will setup only build job
