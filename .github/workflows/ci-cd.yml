@@ -46,7 +46,7 @@ jobs:
         run: dotnet test $TEST_PROJECT_PATH --no-build --configuration Release --logger "trx;LogFileName=test_results.trx" --verbosity diagnostic
       # Step 6: Upload Test Results as Artifact
       - name: Upload Test Results as Artifact
-        uses: actions/upload-artifact@latest
+        uses: actions/upload-artifact@v4
         with:
           name: Test Results
           path: ${{ github.workspace }}/SimpleAPI.Test/bin/Release/net8.0/test_results.trx
