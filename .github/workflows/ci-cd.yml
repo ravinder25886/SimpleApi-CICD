@@ -1,25 +1,31 @@
 name: ASP.NET Core 8 API CI/CD
+
 on:
   push:
     branches: [main]
   pull_request:
-    branches: [main] 
+    branches: [main]
 
 jobs:
-  build: # Fisrt we we will setup only build job
-    runs-on: ubuntu-latest # <-- OS to run the job
-    env: # Environment variables
-      SOLUTION_PATH: SimpleAPI/SimpleAPI.sln #// Path to the solution file
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SOLUTION_PATH: SimpleAPI/SimpleAPI.sln
+      TEST_PROJECT_PATH: SimpleAPI.Test/SimpleAPI.Test.csproj
 
     steps:
-      - name: Checkout-code # Step 1: Checkout the code from repository
-        uses: actions/checkout@v3 # This is a predefined action in GutHib to checkout code
+      # Step 1: Checkout the code from repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup .NET 8 SDK # Step 2: we will setup .net 8 sdk for build 
-        uses: actions/setup-dotnet@v3 # Predefined action to setup dotnet
-        with: #<-- provide parameters to the action
-          dotnet-version: '8.0.x' # Specify the .NET version to install
-      - name: Cache NuGet Packages # Step 2.1: Cache NuGet packages to speed up builds
+      # Step 2: Setup .NET 8 SDK
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # Step 2.1: Cache NuGet packages
+      - name: Cache NuGet Packages
         uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
@@ -27,10 +33,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Restore dependencies # Step 3: Restore the dependencies
-        run: dotnet restore $SOLUTION_PATH   
+      # Step 3: Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore $SOLUTION_PATH
 
-      - name: Build solution # Step 4: Build the solution
-        run: dotnet build $SOLUTION_PATH --no-restore --configuration Release  
+      # Step 4: Build the solution
+      - name: Build solution
+        run: dotnet build $SOLUTION_PATH --no-restore --configuration Release
 
-
+      # Step 5: Run Unit Tests (xUnit)
+      - name: Run unit tests
+        run: dotnet test $TEST_PROJECT_PATH --no-build --configuration Release --verbosity normal
